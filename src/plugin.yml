@@ -1,0 +1,14 @@
+name: NPCGunner
+main: com.ericlam.mc.npc.gunner.main.NPCGunner
+version: 1.0.0
+api-version: "1.13"
+author: Eric Lam
+depend:
+  - CrackShot
+  - CrackShotPlus
+  - HyperNiteMC-Core
+  - Sentinel
+commands:
+  npcg:
+    aliases: [npcgunner, npcgun]
+    description: npcgunner main command
