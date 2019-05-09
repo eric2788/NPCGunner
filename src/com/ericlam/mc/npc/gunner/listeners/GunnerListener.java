@@ -56,7 +56,7 @@ public class GunnerListener implements Listener {
             Bukkit.broadcastMessage("Vision is now "+attr.getVision()+"/15");
             Bukkit.getScheduler().runTaskLater(NPCGunner.getPlugin(),()->{
                 if (attr.getAtkcount() == 0){
-                    attr.reduceVision();
+                    if (attr.getVision() < 10) attr.reduceVision();
                     Bukkit.broadcastMessage("Vision is now "+attr.getVision()+"/15");
                 }else{
                     attr.setVision(15);
