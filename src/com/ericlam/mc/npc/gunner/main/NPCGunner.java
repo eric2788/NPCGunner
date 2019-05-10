@@ -2,8 +2,11 @@ package com.ericlam.mc.npc.gunner.main;
 
 import com.ericlam.managers.command.CommandManager;
 import com.ericlam.mc.npc.gunner.command.NPCGunnerCommand;
-import com.ericlam.mc.npc.gunner.command.subcommand.CheckAttackingCommand;
+import com.ericlam.mc.npc.gunner.command.subcommand.CheckInfoCommand;
+import com.ericlam.mc.npc.gunner.command.subcommand.OpenBagCommand;
+import com.ericlam.mc.npc.gunner.command.subcommand.TphereAsyncCommand;
 import com.ericlam.mc.npc.gunner.listeners.GunnerListener;
+import com.ericlam.mc.npc.gunner.npcs.grenade.SentinelGrenade;
 import com.ericlam.mc.npc.gunner.npcs.pathfind.RandomWalkRunnable;
 import com.shampaggon.crackshot.CSDirector;
 import com.shampaggon.crackshot.CSMinion;
@@ -15,6 +18,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mcmonkey.sentinel.SentinelPlugin;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -75,7 +79,10 @@ public class NPCGunner extends JavaPlugin implements Listener {
         this.getServer().getPluginManager().registerEvents(new GunnerListener(),this);
         this.getServer().getPluginManager().registerEvents(this,this);
         this.getCommand("npcg").setExecutor(new NPCGunnerCommand(this));
-        CommandManager.getInstance().registerCommand(new CheckAttackingCommand(this));
+        CommandManager.getInstance().registerCommand(new CheckInfoCommand(this));
+        CommandManager.getInstance().registerCommand(new TphereAsyncCommand(this));
+        CommandManager.getInstance().registerCommand(new OpenBagCommand(this));
+        SentinelPlugin.getPlugin(SentinelPlugin.class).registerIntegration(new SentinelGrenade());
         randoms = configManager.getConfig("config.yml").getStringList("random-walking-npcs").stream().map(Integer::parseInt).distinct().collect(Collectors.toCollection(ConcurrentLinkedDeque::new));
     }
 

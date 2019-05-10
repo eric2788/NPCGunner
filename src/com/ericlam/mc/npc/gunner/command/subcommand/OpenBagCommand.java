@@ -1,18 +1,19 @@
 package com.ericlam.mc.npc.gunner.command.subcommand;
 
 import com.ericlam.managers.command.SubCommand;
-import com.ericlam.mc.npc.gunner.main.NPCGunner;
-import com.ericlam.mc.npc.gunner.npcs.pathfind.RandomWalkRunnable;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import javax.annotation.Nullable;
 
-public class CheckAttackingCommand extends SubCommand {
+public class OpenBagCommand extends SubCommand {
 
-    public CheckAttackingCommand(Plugin plugin) {
+    public OpenBagCommand(Plugin plugin) {
         super(plugin);
     }
 
@@ -28,7 +29,7 @@ public class CheckAttackingCommand extends SubCommand {
 
     @Override
     public String getHelpMessages() {
-        return "/npcg attacking";
+        return "/npcg openbag";
     }
 
     @Nullable
@@ -39,7 +40,7 @@ public class CheckAttackingCommand extends SubCommand {
 
     @Override
     public String getName() {
-        return "attacking";
+        return "openbag";
     }
 
     @Override
@@ -49,17 +50,27 @@ public class CheckAttackingCommand extends SubCommand {
 
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
+        if (!(commandSender instanceof Player)) {
+            commandSender.sendMessage("not player!");
+            return;
+        }
+        Player player = (Player) commandSender;
         NPC npc = CitizensAPI.getDefaultNPCSelector().getSelected(commandSender);
-        if (npc == null){
+        if (npc == null) {
             commandSender.sendMessage("§c你沒有選擇npc");
             return;
         }
-        if (!NPCGunner.getRandomWalking().containsKey(npc.getId())){
-            commandSender.sendMessage("§c該npc不在隨機遊走列表內");
+        if (!npc.isSpawned()) {
+            commandSender.sendMessage("§c該 NPC 尚未重生！");
+            return;
+        }
+        Entity entity = npc.getEntity();
+        if (!(entity instanceof HumanEntity)) {
+            commandSender.sendMessage("§c該 npc 不是玩家形態!");
             return;
         }
 
-        RandomWalkRunnable runnable = NPCGunner.getRandomWalking().get(npc.getId());
-        commandSender.sendMessage("§eNPC "+npc.getFullName()+(runnable.isAttacking() ? " §ais" : " §cis not")+" §eattacking");
+        HumanEntity npcPlayer = (HumanEntity) entity;
+        player.openInventory(npcPlayer.getInventory());
     }
 }

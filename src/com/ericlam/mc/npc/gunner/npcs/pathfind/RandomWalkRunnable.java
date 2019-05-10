@@ -12,6 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
 
+// Random Walk 隨機走動
 public class RandomWalkRunnable extends BukkitRunnable {
 
 
@@ -22,7 +23,7 @@ public class RandomWalkRunnable extends BukkitRunnable {
     public void setAttacking(boolean attacking) {
         if (this.attacking == attacking) return;
         this.attacking = attacking;
-        if (this.attacking) npc.getNavigator().cancelNavigation();
+        npc.getNavigator().setPaused(attacking);
     }
 
     public boolean isAttacking() {
