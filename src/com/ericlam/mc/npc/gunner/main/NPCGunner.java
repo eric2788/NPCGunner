@@ -94,8 +94,8 @@ public class NPCGunner extends JavaPlugin implements Listener {
     @EventHandler
     public void onNPCSpawn(NPCSpawnEvent e){
         NPC npc = e.getNPC();
-        Bukkit.broadcastMessage(npc.getFullName()+" has spawn !");
-        Bukkit.broadcastMessage(npc.getId()+" id");
+        Bukkit.broadcast(npc.getFullName() + " has spawn !", "npcg.debug");
+        Bukkit.broadcast(npc.getId() + " id", "npcg.debug");
         if (!randoms.contains(npc.getId())) return;
         int id = randoms.poll();
         RandomWalkRunnable runnable = new RandomWalkRunnable(npc);

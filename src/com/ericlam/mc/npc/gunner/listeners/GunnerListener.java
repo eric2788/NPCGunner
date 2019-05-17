@@ -88,11 +88,11 @@ public class GunnerListener implements Listener {
         }
         if (attr.addVision()){
             e.setCancelled(true);
-            Bukkit.broadcastMessage("Vision is now " + attr.getVision() + "/15"); //發現值
+            Bukkit.broadcast("Vision is now " + attr.getVision() + "/15", "npcg.debug"); //發現值
             Bukkit.getScheduler().runTaskLater(NPCGunner.getPlugin(),()->{
                 if (attr.getAtkcount() == 0){
                     if (attr.getVision() < 10) attr.reduceVision();
-                    Bukkit.broadcastMessage("Vision is now "+attr.getVision()+"/15");
+                    Bukkit.broadcast("Vision is now " + attr.getVision() + "/15", "npcg.debug");
                 }else{
                     attr.setVision(15);
                 }
@@ -108,13 +108,13 @@ public class GunnerListener implements Listener {
                 SentinelTrait trait = SentinelUtilities.tryGetSentinel(player);
                 trait.realistic = false;
                 trait.runUpdate();
-                Bukkit.broadcastMessage("Attacking set to true");
+                Bukkit.broadcast("Attacking set to true", "npcg.debug");
             }
             Bukkit.getScheduler().runTaskLater(NPCGunner.getPlugin(),()->{
                 if (attr.reduceAtkCount()){
                     runnable.setAttacking(false);
                     attr.setVision(0);
-                    Bukkit.broadcastMessage("Attacking set to false");
+                    Bukkit.broadcast("Attacking set to false", "npcg.debug");
                     SentinelTrait trait = SentinelUtilities.tryGetSentinel(player);
                     trait.realistic = true;
                     trait.runUpdate();
@@ -129,10 +129,10 @@ public class GunnerListener implements Listener {
             ItemStack ammoItem = csMinion.parseItemStack(ammoInfo);
             ammoItem.setAmount(64);
             player.getInventory().addItem(ammoItem); //沒有子彈的時候加一些給npc
-            Bukkit.broadcastMessage(e.getNPC().getFullName()+" NPC not enough ammo !! adding some to him...");
+            Bukkit.broadcast(e.getNPC().getFullName() + " NPC not enough ammo !! adding some to him...", "npcg.debug");
         }
         if (reloading.contains(e.getNPC())) return;
-        Bukkit.broadcastMessage(e.getNPC().getFullName()+" NPC is reloading !!");
+        Bukkit.broadcast(e.getNPC().getFullName() + " NPC is reloading !!", "npcg.debug");
         csDirector.reloadAnimation(player, title, true); //自動重載子彈
     }
 
@@ -157,7 +157,7 @@ public class GunnerListener implements Listener {
     public void onBulletSpread(WeaponCustomBulletSpreadEvent e){
         NPC npc = CitizensAPI.getNPCRegistry().getNPC(e.getPlayer());
         if (npc == null) return;
-        Bukkit.broadcastMessage(npc.getFullName()+" NPC is shooting !!");
+        Bukkit.broadcast(npc.getFullName() + " NPC is shooting !!", "npcg.debug");
         e.setZXSpread(0);
         e.setYSpread(0);
     }
