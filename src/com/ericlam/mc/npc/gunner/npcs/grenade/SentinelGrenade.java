@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.util.Vector;
 import org.mcmonkey.sentinel.SentinelIntegration;
 import org.mcmonkey.sentinel.SentinelTrait;
@@ -22,11 +23,13 @@ public class SentinelGrenade extends SentinelIntegration {
             if (node == null || !Utils.isExplosiveWeapon(node)) {
                 return false;
             } else {
+                Player player = (Player) st.getLivingEntity();
+                PermissionAttachment attachment = player.addAttachment(NPCGunner.getPlugin());
+                attachment.setPermission("csp.use.all", true);
                 Vector faceAcc = ent.getEyeLocation().toVector().subtract(st.getLivingEntity().getEyeLocation().toVector());
                 if (faceAcc.lengthSquared() > 0.0D) {
                     faceAcc = faceAcc.normalize();
                 }
-
                 faceAcc = st.fixForAcc(faceAcc);
                 Location eyeloc = st.getLivingEntity().getEyeLocation();
                 eyeloc.setPitch(eyeloc.getPitch() - 3);

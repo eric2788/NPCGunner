@@ -49,7 +49,7 @@ public class RandomWalkRunnable extends BukkitRunnable {
         double x = Utils.randomWithRange(4, radius) * (random.nextBoolean() ? -1 : 1);
         double z = Utils.randomWithRange(4, radius) * (random.nextBoolean() ? -1 : 1);
         Entity entity = npc.getEntity();
-        return new Location(entity.getWorld(),entity.getLocation().getX()+x,entity.getLocation().getY(),entity.getLocation().getZ()+z);
+        return new Location(entity.getWorld(), entity.getLocation().getX() + x, entity.getLocation().getY() == -1 ? 0 : entity.getLocation().getY(), entity.getLocation().getZ() + z);
     }
 
     private boolean isWalled(Location blockLoc){
